@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grimoire Profile",
+  "description": "Schema for grimoire skill profile files",
+  "type": "object",
+  "required": ["version", "skills"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Profile schema version"
+    },
+    "exported_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this profile was exported"
+    },
+    "skills": {
+      "type": "array",
+      "description": "Installed skills",
+      "items": {
+        "type": "object",
+        "required": ["name", "source"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Skill name"
+          },
+          "source": {
+            "type": "string",
+            "description": "Git source (github:owner/repo or full URL)"
+          },
+          "location": {
+            "type": "string",
+            "enum": ["personal", "project"],
+            "default": "personal",
+            "description": "Where skill is installed"
+          }
+        }
+      }
+    },
+    "registries": {
+      "type": "array",
+      "description": "Configured registries",
+      "items": {
+        "type": "object",
+        "required": ["name", "source"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Registry name (filename without .json)"
+          },
+          "source": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to fetch registry from"
+          }
+        }
+      }
+    },
+    "settings": {
+      "type": "object",
+      "description": "Grimoire settings",
+      "properties": {
+        "default_scope": {
+          "type": "string",
+          "enum": ["personal", "project"],
+          "default": "personal",
+          "description": "Default installation scope"
+        },
+        "gist_id": {
+          "type": "string",
+          "description": "GitHub Gist ID for sync"
+        }
+      }
+    }
+  }
+}

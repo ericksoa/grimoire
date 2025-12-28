@@ -44,6 +44,28 @@ git clone https://github.com/ericksoa/grimoire ~/.claude/skills/grimoire
 | `/grimoire update` | Update all git-managed skills |
 | `/grimoire remove <name>` | Uninstall a skill |
 | `/grimoire create` | Create a new skill |
+| `/grimoire export` | Export skills to a profile file |
+| `/grimoire import <file>` | Import skills from a profile |
+
+## Profiles
+
+Share your skill setup across machines or with others:
+
+```bash
+# Export your current setup
+/grimoire export                      # Saves to ~/.grimoire-profile.json
+/grimoire export --gist               # Upload to GitHub Gist
+
+# Import on another machine
+/grimoire import ~/profile.json       # From local file
+/grimoire import --gist <gist-id>     # From GitHub Gist
+/grimoire import --dry-run file.json  # Preview without installing
+```
+
+Profiles capture:
+- Installed skills (with git sources)
+- Configured registries
+- Grimoire settings
 
 ## How It Works
 

@@ -212,6 +212,91 @@ Optional frontmatter fields:
 | Permission denied | Suggest checking directory permissions |
 | Skill already exists | Ask if user wants to update or reinstall |
 
+### 8. EXPORT - Export profile
+
+When user wants to export their skill configuration:
+
+```bash
+# Export to default location
+node ~/.claude/skills/grimoire/scripts/export-profile.js
+
+# Export to specific file
+node ~/.claude/skills/grimoire/scripts/export-profile.js ~/my-profile.json
+
+# Export to GitHub Gist
+node ~/.claude/skills/grimoire/scripts/export-profile.js --gist
+```
+
+Profile includes:
+- All installed skills (with git sources)
+- Configured registries
+- Grimoire settings
+
+### 9. IMPORT - Import profile
+
+When user wants to import a profile:
+
+```bash
+# Import from local file
+node ~/.claude/skills/grimoire/scripts/import-profile.js ~/profile.json
+
+# Import from URL
+node ~/.claude/skills/grimoire/scripts/import-profile.js https://example.com/profile.json
+
+# Import from GitHub Gist
+node ~/.claude/skills/grimoire/scripts/import-profile.js --gist <gist-id>
+
+# Dry run (preview without installing)
+node ~/.claude/skills/grimoire/scripts/import-profile.js --dry-run ~/profile.json
+
+# Force reinstall existing skills
+node ~/.claude/skills/grimoire/scripts/import-profile.js --force ~/profile.json
+```
+
+After import, remind user: **"Restart Claude Code to load the new skills."**
+
+### 10. SYNC - Sync profile with gist
+
+When user wants to sync across machines:
+
+```bash
+# Push current state to gist (creates or updates)
+node ~/.claude/skills/grimoire/scripts/export-profile.js --gist
+
+# Pull from gist and install missing skills
+node ~/.claude/skills/grimoire/scripts/import-profile.js --gist <gist-id>
+```
+
+Store gist ID in settings for future syncs.
+
+## Profile JSON Format
+
+Profiles follow this structure:
+
+```json
+{
+  "version": "1.0.0",
+  "exported_at": "2025-12-27T12:00:00Z",
+  "skills": [
+    {
+      "name": "skill-name",
+      "source": "github:owner/repo",
+      "location": "personal"
+    }
+  ],
+  "registries": [
+    {
+      "name": "community",
+      "source": "https://raw.githubusercontent.com/ericksoa/grimoire/main/registries/community.json"
+    }
+  ],
+  "settings": {
+    "default_scope": "personal",
+    "gist_id": "optional-gist-id-for-sync"
+  }
+}
+```
+
 ## Examples
 
 **User:** "What skills do I have installed?"
@@ -225,3 +310,12 @@ Optional frontmatter fields:
 
 **User:** "Create a skill for formatting SQL"
 **Action:** Run CREATE flow, gather inputs, generate SKILL.md
+
+**User:** "Export my skills to a file"
+**Action:** Run EXPORT command, save to ~/.grimoire-profile.json
+
+**User:** "Import skills from this profile"
+**Action:** Run IMPORT command, install missing skills, remind to restart
+
+**User:** "Sync my skills to a gist"
+**Action:** Run EXPORT with --gist flag
