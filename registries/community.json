@@ -5,62 +5,6 @@
   "homepage": "https://github.com/anthropics/claude-code",
   "skills": [
     {
-      "name": "commit-wizard",
-      "description": "Smart git commits with conventional commit format, auto-generated messages, and scope detection",
-      "source": "github:example/commit-wizard-skill",
-      "tags": [
-        "git",
-        "commits",
-        "conventional-commits"
-      ],
-      "version": "1.0.0"
-    },
-    {
-      "name": "test-whisperer",
-      "description": "Generate comprehensive test suites with edge cases, mocks, and coverage analysis",
-      "source": "github:example/test-whisperer-skill",
-      "tags": [
-        "testing",
-        "jest",
-        "pytest",
-        "coverage"
-      ],
-      "version": "1.0.0"
-    },
-    {
-      "name": "doc-scribe",
-      "description": "Generate and maintain documentation, READMEs, and API docs from code",
-      "source": "github:example/doc-scribe-skill",
-      "tags": [
-        "documentation",
-        "readme",
-        "api-docs"
-      ],
-      "version": "1.0.0"
-    },
-    {
-      "name": "refactor-sage",
-      "description": "Intelligent code refactoring with pattern detection and best practice suggestions",
-      "source": "github:example/refactor-sage-skill",
-      "tags": [
-        "refactoring",
-        "code-quality",
-        "patterns"
-      ],
-      "version": "1.0.0"
-    },
-    {
-      "name": "debug-oracle",
-      "description": "Advanced debugging assistance with stack trace analysis and root cause detection",
-      "source": "github:example/debug-oracle-skill",
-      "tags": [
-        "debugging",
-        "errors",
-        "troubleshooting"
-      ],
-      "version": "1.0.0"
-    },
-    {
       "name": "evolve",
       "description": "Genetic algorithm optimizer for performance-critical code using parallel Claude Code agents to discover faster implementations through evolution",
       "source": "github:ericksoa/agentic-evolve",
