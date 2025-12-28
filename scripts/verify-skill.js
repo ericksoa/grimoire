@@ -61,6 +61,7 @@ async function fetchSkillContent(source, skillName) {
   // Try common SKILL.md locations
   const repoName = parsed.repo.split('/')[1];
   const locations = [
+    `skills/${skillName}/SKILL.md`,      // Monorepo format (anthropics/skills)
     `.claude/commands/${skillName}.md`,  // Slash command format
     `.claude/commands/${repoName}.md`,   // Repo name as command
     'SKILL.md',

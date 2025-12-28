@@ -24,12 +24,12 @@ git clone https://github.com/ericksoa/grimoire ~/.claude/skills/grimoire
 | Skill | Description | Verified | Tags | Install |
 |-------|-------------|:--------:|------|---------|
 | [evolve](https://github.com/ericksoa/agentic-evolve) | Genetic algorithm optimizer for performance-critical code using parallel Claude Code agents to discover faster implementations through evolution | ✓ | `optimization` `genetic-algorithm` `performance` `rust` `benchmarks` | `/grimoire install evolve` |
-| [mcp-builder](https://github.com/anthropics/skills) | Generate fully functional MCP servers from natural language descriptions (Official Anthropic skill) |  | `mcp` `server` `code-generation` `anthropic-official` | `/grimoire install mcp-builder` |
-| [skill-creator](https://github.com/anthropics/skills) | Create new Claude Code skills with proper structure and best practices (Official Anthropic skill) |  | `meta` `skill-development` `templates` `anthropic-official` | `/grimoire install skill-creator` |
-| [webapp-testing](https://github.com/anthropics/skills) | Automated testing for web applications with browser automation and assertions (Official Anthropic skill) |  | `testing` `web` `automation` `browser` `anthropic-official` | `/grimoire install webapp-testing` |
+| [mcp-builder](https://github.com/anthropics/skills) | Generate fully functional MCP servers from natural language descriptions (Official Anthropic skill) | ✓ | `mcp` `server` `code-generation` `anthropic-official` | `/grimoire install mcp-builder` |
+| [skill-creator](https://github.com/anthropics/skills) | Create new Claude Code skills with proper structure and best practices (Official Anthropic skill) | ✓ | `meta` `skill-development` `templates` `anthropic-official` | `/grimoire install skill-creator` |
+| [webapp-testing](https://github.com/anthropics/skills) | Automated testing for web applications with browser automation and assertions (Official Anthropic skill) | ✓ | `testing` `web` `automation` `browser` `anthropic-official` | `/grimoire install webapp-testing` |
 <!-- CATALOG:END -->
 
-**4 skills** (1 verified) | [Add yours](CONTRIBUTING.md)
+**4 skills** (4 verified) | [Add yours](CONTRIBUTING.md)
 
 ## Commands
 

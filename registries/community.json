@@ -29,7 +29,9 @@
         "code-generation",
         "anthropic-official"
       ],
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "verified": true,
+      "verified_at": "2025-12-28"
     },
     {
       "name": "skill-creator",
@@ -41,7 +43,9 @@
         "templates",
         "anthropic-official"
       ],
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "verified": true,
+      "verified_at": "2025-12-28"
     },
     {
       "name": "webapp-testing",
@@ -54,7 +58,9 @@
         "browser",
         "anthropic-official"
       ],
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "verified": true,
+      "verified_at": "2025-12-28"
     }
   ]
 }
