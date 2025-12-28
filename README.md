@@ -27,11 +27,14 @@ git clone https://github.com/ericksoa/grimoire ~/.claude/skills/grimoire
 | [debug-oracle](https://github.com/example/debug-oracle-skill) | Advanced debugging assistance with stack trace analysis and root cause detection |  | `debugging` `errors` `troubleshooting` | `/grimoire install debug-oracle` |
 | [doc-scribe](https://github.com/example/doc-scribe-skill) | Generate and maintain documentation, READMEs, and API docs from code |  | `documentation` `readme` `api-docs` | `/grimoire install doc-scribe` |
 | [evolve](https://github.com/ericksoa/agentic-evolve) | Genetic algorithm optimizer for performance-critical code using parallel Claude Code agents to discover faster implementations through evolution | ✓ | `optimization` `genetic-algorithm` `performance` `rust` `benchmarks` | `/grimoire install evolve` |
+| [mcp-builder](https://github.com/anthropics/skills) | Generate fully functional MCP servers from natural language descriptions (Official Anthropic skill) |  | `mcp` `server` `code-generation` `anthropic-official` | `/grimoire install mcp-builder` |
 | [refactor-sage](https://github.com/example/refactor-sage-skill) | Intelligent code refactoring with pattern detection and best practice suggestions |  | `refactoring` `code-quality` `patterns` | `/grimoire install refactor-sage` |
+| [skill-creator](https://github.com/anthropics/skills) | Create new Claude Code skills with proper structure and best practices (Official Anthropic skill) |  | `meta` `skill-development` `templates` `anthropic-official` | `/grimoire install skill-creator` |
 | [test-whisperer](https://github.com/example/test-whisperer-skill) | Generate comprehensive test suites with edge cases, mocks, and coverage analysis |  | `testing` `jest` `pytest` `coverage` | `/grimoire install test-whisperer` |
+| [webapp-testing](https://github.com/anthropics/skills) | Automated testing for web applications with browser automation and assertions (Official Anthropic skill) |  | `testing` `web` `automation` `browser` `anthropic-official` | `/grimoire install webapp-testing` |
 <!-- CATALOG:END -->
 
-**6 skills** (1 verified) | [Add yours](CONTRIBUTING.md)
+**9 skills** (1 verified) | [Add yours](CONTRIBUTING.md)
 
 ## Commands
 

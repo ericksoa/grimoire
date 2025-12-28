@@ -74,6 +74,43 @@
       "version": "1.0.0",
       "verified": true,
       "verified_at": "2025-12-28"
+    },
+    {
+      "name": "mcp-builder",
+      "description": "Generate fully functional MCP servers from natural language descriptions (Official Anthropic skill)",
+      "source": "github:anthropics/skills",
+      "tags": [
+        "mcp",
+        "server",
+        "code-generation",
+        "anthropic-official"
+      ],
+      "version": "1.0.0"
+    },
+    {
+      "name": "skill-creator",
+      "description": "Create new Claude Code skills with proper structure and best practices (Official Anthropic skill)",
+      "source": "github:anthropics/skills",
+      "tags": [
+        "meta",
+        "skill-development",
+        "templates",
+        "anthropic-official"
+      ],
+      "version": "1.0.0"
+    },
+    {
+      "name": "webapp-testing",
+      "description": "Automated testing for web applications with browser automation and assertions (Official Anthropic skill)",
+      "source": "github:anthropics/skills",
+      "tags": [
+        "testing",
+        "web",
+        "automation",
+        "browser",
+        "anthropic-official"
+      ],
+      "version": "1.0.0"
     }
   ]
 }
