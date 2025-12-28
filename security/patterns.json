@@ -1,0 +1,42 @@
+{
+  "dangerous": [
+    {"pattern": "curl.*\\|.*(?:sh|bash)", "reason": "Piping curl to shell"},
+    {"pattern": "wget.*\\|.*(?:sh|bash)", "reason": "Piping wget to shell"},
+    {"pattern": "\\$\\(curl", "reason": "Command substitution with curl"},
+    {"pattern": "\\$\\(wget", "reason": "Command substitution with wget"},
+    {"pattern": "\\.ssh/", "reason": "SSH directory access"},
+    {"pattern": "\\.aws/", "reason": "AWS credentials access"},
+    {"pattern": "\\.gnupg/", "reason": "GPG keyring access"},
+    {"pattern": "eval\\s*\\(.*\\$", "reason": "Dynamic eval with variables"},
+    {"pattern": "eval\\s+[\"']?\\$", "reason": "Eval with variable expansion"},
+    {"pattern": "/etc/passwd", "reason": "System password file access"},
+    {"pattern": "/etc/shadow", "reason": "System shadow file access"},
+    {"pattern": "chmod\\s+777", "reason": "World-writable permissions"},
+    {"pattern": "rm\\s+-rf\\s+/(?!tmp)", "reason": "Dangerous recursive delete"}
+  ],
+  "suspicious": [
+    {"pattern": "base64\\s+(?:-d|--decode)", "reason": "Base64 decoding (potential obfuscation)"},
+    {"pattern": "\\$HOME/\\.", "reason": "Hidden file access in home directory"},
+    {"pattern": "nc\\s+-[el]", "reason": "Netcat listener (potential backdoor)"},
+    {"pattern": "python.*-c.*import", "reason": "Inline Python execution"},
+    {"pattern": "\\\\x[0-9a-fA-F]{2}", "reason": "Hex-encoded strings (potential obfuscation)"},
+    {"pattern": "ANTHROPIC_API_KEY", "reason": "API key reference"},
+    {"pattern": "OPENAI_API_KEY", "reason": "API key reference"},
+    {"pattern": "AWS_SECRET", "reason": "AWS secret reference"},
+    {"pattern": "credentials", "reason": "Credentials reference"},
+    {"pattern": "password\\s*=", "reason": "Password assignment"}
+  ],
+  "allowlist": {
+    "domains": [
+      "github.com",
+      "raw.githubusercontent.com",
+      "api.github.com",
+      "registry.npmjs.org",
+      "pypi.org"
+    ],
+    "patterns": [
+      "git clone.*github\\.com",
+      "curl.*raw\\.githubusercontent\\.com"
+    ]
+  }
+}

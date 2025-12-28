@@ -53,18 +53,19 @@ function loadRegistries() {
 function generateCatalogTable(skills) {
   const lines = [
     '',
-    '| Skill | Description | Tags | Install |',
-    '|-------|-------------|------|---------|',
+    '| Skill | Description | Verified | Tags | Install |',
+    '|-------|-------------|:--------:|------|---------|',
   ];
 
   for (const skill of skills) {
     const url = parseSource(skill.source);
     const name = `[${skill.name}](${url})`;
     const desc = skill.description;
+    const verified = skill.verified ? '✓' : '';
     const tags = formatTags(skill.tags);
     const install = `\`/grimoire install ${skill.name}\``;
 
-    lines.push(`| ${name} | ${desc} | ${tags} | ${install} |`);
+    lines.push(`| ${name} | ${desc} | ${verified} | ${tags} | ${install} |`);
   }
 
   lines.push('');
@@ -72,7 +73,7 @@ function generateCatalogTable(skills) {
   return lines.join('\n');
 }
 
-function updateReadme(catalogContent, skillCount) {
+function updateReadme(catalogContent, skillCount, verifiedCount) {
   let readme = fs.readFileSync(README_PATH, 'utf8');
 
   const startIdx = readme.indexOf(CATALOG_START);
@@ -88,9 +89,13 @@ function updateReadme(catalogContent, skillCount) {
 
   // Update skill count badge
   let newReadme = before + catalogContent + after;
+  const countText = verifiedCount > 0
+    ? `**${skillCount} skills** (${verifiedCount} verified)`
+    : `**${skillCount} skills available**`;
+
   newReadme = newReadme.replace(
-    /\*\*\d+ skills available\*\*/,
-    `**${skillCount} skills available**`
+    /\*\*\d+ skills.*?\*\*(?:\s*\(\d+ verified\))?/,
+    countText
   );
 
   fs.writeFileSync(README_PATH, newReadme);
@@ -101,13 +106,14 @@ function updateReadme(catalogContent, skillCount) {
 function main() {
   console.log('Loading registries...');
   const skills = loadRegistries();
-  console.log(`Found ${skills.length} skills`);
+  const verifiedCount = skills.filter(s => s.verified).length;
+  console.log(`Found ${skills.length} skills (${verifiedCount} verified)`);
 
   console.log('Generating catalog...');
   const catalog = generateCatalogTable(skills);
 
   console.log('Updating README.md...');
-  updateReadme(catalog, skills.length);
+  updateReadme(catalog, skills.length, verifiedCount);
 
   console.log('Done!');
 }

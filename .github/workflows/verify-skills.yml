@@ -1,0 +1,146 @@
+name: Verify Skills
+
+on:
+  pull_request:
+    paths:
+      - 'registries/*.json'
+  workflow_dispatch:
+    inputs:
+      skill_name:
+        description: 'Skill name to verify (leave empty for all)'
+        required: false
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get changed files
+        id: changed
+        if: github.event_name == 'pull_request'
+        run: |
+          # Get list of changed registry files
+          CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep 'registries/.*\.json' || true)
+          echo "files=$CHANGED" >> $GITHUB_OUTPUT
+
+      - name: Extract new skills from PR
+        id: skills
+        if: github.event_name == 'pull_request'
+        run: |
+          # Compare registries to find new/modified skills
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+
+          NEW_SKILLS=""
+          for file in registries/*.json; do
+            if [ -f "$file" ] && [ "$file" != "registries/schema.json" ]; then
+              # Get skills in current version
+              CURRENT=$(node -e "
+                const fs = require('fs');
+                const data = JSON.parse(fs.readFileSync('$file'));
+                (data.skills || []).forEach(s => console.log(s.name));
+              " 2>/dev/null || true)
+
+              # Get skills in base version
+              git show origin/${{ github.event.pull_request.base.ref }}:$file > /tmp/base.json 2>/dev/null || echo '{"skills":[]}' > /tmp/base.json
+              BASE=$(node -e "
+                const fs = require('fs');
+                const data = JSON.parse(fs.readFileSync('/tmp/base.json'));
+                (data.skills || []).forEach(s => console.log(s.name));
+              " 2>/dev/null || true)
+
+              # Find new skills (in current but not in base)
+              for skill in $CURRENT; do
+                if ! echo "$BASE" | grep -q "^${skill}$"; then
+                  NEW_SKILLS="$NEW_SKILLS $skill"
+                fi
+              done
+            fi
+          done
+
+          echo "new_skills=$NEW_SKILLS" >> $GITHUB_OUTPUT
+          echo "Found new skills: $NEW_SKILLS"
+
+      - name: Verify new skills
+        id: verify
+        run: |
+          SKILLS="${{ steps.skills.outputs.new_skills || inputs.skill_name }}"
+
+          if [ -z "$SKILLS" ]; then
+            echo "No new skills to verify"
+            echo "result=skip" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          FAILED=""
+          PASSED=""
+
+          for skill in $SKILLS; do
+            echo "=========================================="
+            echo "Verifying: $skill"
+            echo "=========================================="
+
+            if node scripts/verify-skill.js "$skill" --verbose; then
+              PASSED="$PASSED $skill"
+            else
+              FAILED="$FAILED $skill"
+            fi
+          done
+
+          if [ -n "$FAILED" ]; then
+            echo "result=failed" >> $GITHUB_OUTPUT
+            echo "failed=$FAILED" >> $GITHUB_OUTPUT
+            echo "passed=$PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "result=passed" >> $GITHUB_OUTPUT
+            echo "passed=$PASSED" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.verify.outputs.result != 'skip'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = '${{ steps.verify.outputs.result }}';
+            const passed = '${{ steps.verify.outputs.passed }}'.trim().split(' ').filter(Boolean);
+            const failed = '${{ steps.verify.outputs.failed }}'.trim().split(' ').filter(Boolean);
+
+            let body = '## Skill Verification Results\n\n';
+
+            if (passed.length > 0) {
+              body += '### ✅ Passed\n';
+              passed.forEach(s => body += `- \`${s}\`\n`);
+              body += '\n';
+            }
+
+            if (failed.length > 0) {
+              body += '### ❌ Failed\n';
+              failed.forEach(s => body += `- \`${s}\`\n`);
+              body += '\n';
+              body += '> Skills with security issues cannot be merged. Please review the action logs for details.\n';
+            }
+
+            if (result === 'passed') {
+              body += '\n🎉 All new skills passed verification!';
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Fail if verification failed
+        if: steps.verify.outputs.result == 'failed'
+        run: exit 1

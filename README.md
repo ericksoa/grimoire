@@ -21,17 +21,17 @@ git clone https://github.com/ericksoa/grimoire ~/.claude/skills/grimoire
 ## Skills Catalog
 
 <!-- CATALOG:START - Do not remove. Auto-generated from registries/*.json -->
-| Skill | Description | Tags | Install |
-|-------|-------------|------|---------|
-| [commit-wizard](https://github.com/example/commit-wizard-skill) | Smart git commits with conventional commit format, auto-generated messages, and scope detection | `git` `commits` `conventional-commits` | `/grimoire install commit-wizard` |
-| [debug-oracle](https://github.com/example/debug-oracle-skill) | Advanced debugging assistance with stack trace analysis and root cause detection | `debugging` `errors` `troubleshooting` | `/grimoire install debug-oracle` |
-| [doc-scribe](https://github.com/example/doc-scribe-skill) | Generate and maintain documentation, READMEs, and API docs from code | `documentation` `readme` `api-docs` | `/grimoire install doc-scribe` |
-| [evolve](https://github.com/ericksoa/agentic-evolve) | Genetic algorithm optimizer for performance-critical code using parallel Claude Code agents to discover faster implementations through evolution | `optimization` `genetic-algorithm` `performance` `rust` `benchmarks` | `/grimoire install evolve` |
-| [refactor-sage](https://github.com/example/refactor-sage-skill) | Intelligent code refactoring with pattern detection and best practice suggestions | `refactoring` `code-quality` `patterns` | `/grimoire install refactor-sage` |
-| [test-whisperer](https://github.com/example/test-whisperer-skill) | Generate comprehensive test suites with edge cases, mocks, and coverage analysis | `testing` `jest` `pytest` `coverage` | `/grimoire install test-whisperer` |
+| Skill | Description | Verified | Tags | Install |
+|-------|-------------|:--------:|------|---------|
+| [commit-wizard](https://github.com/example/commit-wizard-skill) | Smart git commits with conventional commit format, auto-generated messages, and scope detection |  | `git` `commits` `conventional-commits` | `/grimoire install commit-wizard` |
+| [debug-oracle](https://github.com/example/debug-oracle-skill) | Advanced debugging assistance with stack trace analysis and root cause detection |  | `debugging` `errors` `troubleshooting` | `/grimoire install debug-oracle` |
+| [doc-scribe](https://github.com/example/doc-scribe-skill) | Generate and maintain documentation, READMEs, and API docs from code |  | `documentation` `readme` `api-docs` | `/grimoire install doc-scribe` |
+| [evolve](https://github.com/ericksoa/agentic-evolve) | Genetic algorithm optimizer for performance-critical code using parallel Claude Code agents to discover faster implementations through evolution | ✓ | `optimization` `genetic-algorithm` `performance` `rust` `benchmarks` | `/grimoire install evolve` |
+| [refactor-sage](https://github.com/example/refactor-sage-skill) | Intelligent code refactoring with pattern detection and best practice suggestions |  | `refactoring` `code-quality` `patterns` | `/grimoire install refactor-sage` |
+| [test-whisperer](https://github.com/example/test-whisperer-skill) | Generate comprehensive test suites with edge cases, mocks, and coverage analysis |  | `testing` `jest` `pytest` `coverage` | `/grimoire install test-whisperer` |
 <!-- CATALOG:END -->
 
-**6 skills available** | [Add yours](CONTRIBUTING.md)
+**6 skills** (1 verified) | [Add yours](CONTRIBUTING.md)
 
 ## Commands
 
@@ -91,6 +91,20 @@ Your skill's prompt goes here...
 ## Add Your Skill
 
 Want to share your skill? See [CONTRIBUTING.md](CONTRIBUTING.md) for instructions.
+
+## Security
+
+Skills marked with ✓ in the catalog have passed automated security verification:
+
+- **Structure validation**: Valid SKILL.md with required fields
+- **Security scanning**: No dangerous patterns (credential access, remote code execution, etc.)
+
+See [SECURITY.md](SECURITY.md) for details on what we scan for and how to verify skills locally.
+
+```bash
+# Verify a skill before installing
+node ~/.claude/skills/grimoire/scripts/verify-skill.js <skill-name>
+```
 
 ## License
 
