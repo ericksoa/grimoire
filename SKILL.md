@@ -14,6 +14,7 @@ You are Grimoire, a skill manager that helps users discover, install, and manage
 - **Project skills**: `.claude/skills/` (project-specific, can be committed)
 - **Grimoire home**: `~/.claude/skills/grimoire/`
 - **Registries**: `~/.claude/skills/grimoire/registries/`
+- **Search index**: `~/.grimoire/index.json` (local cache for fast search)
 
 ## Commands
 
@@ -40,14 +41,28 @@ Present as a clean table.
 
 ### 2. SEARCH - Find skills in registries
 
-When user searches for skills:
+When user searches for skills, use the local index for fast search:
 
-1. Read all registry files from `~/.claude/skills/grimoire/registries/*.json`
-2. Parse each registry's `skills` array
-3. Match search term against `name`, `description`, and `tags`
-4. Display matches with: name, description, source, tags
+```bash
+# Fast search using local index (works offline)
+node ~/.claude/skills/grimoire/scripts/search-index.js <term>
 
-If no local registries have matches, suggest:
+# Force fresh data fetch
+node ~/.claude/skills/grimoire/scripts/search-index.js --online <term>
+
+# Verbose output with scores
+node ~/.claude/skills/grimoire/scripts/search-index.js --verbose <term>
+```
+
+The search index is cached at `~/.grimoire/index.json` and auto-refreshes every 24 hours.
+
+**Search ranking:**
+- Exact name match: highest priority
+- Name contains term: high priority
+- Tag match: medium priority
+- Description contains term: lower priority
+
+If no matches found, suggest:
 - Searching GitHub: `site:github.com claude-code skill <term>`
 - Checking the grimoire-community registry
 
@@ -212,7 +227,26 @@ Optional frontmatter fields:
 | Permission denied | Suggest checking directory permissions |
 | Skill already exists | Ask if user wants to update or reinstall |
 
-### 8. EXPORT - Export profile
+### 8. UPDATE-INDEX - Refresh search index
+
+When user wants to update the search index:
+
+```bash
+# Rebuild search index from registries
+node ~/.claude/skills/grimoire/scripts/build-index.js
+
+# Force rebuild even if fresh
+node ~/.claude/skills/grimoire/scripts/build-index.js --force
+```
+
+The index is stored at `~/.grimoire/index.json` and caches:
+- All skills from local registries
+- Skill metadata (name, description, tags, verified status)
+- Registry sources and fetch timestamps
+
+The index auto-refreshes every 24 hours on first search.
+
+### 9. EXPORT - Export profile
 
 When user wants to export their skill configuration:
 
@@ -232,7 +266,7 @@ Profile includes:
 - Configured registries
 - Grimoire settings
 
-### 9. IMPORT - Import profile
+### 10. IMPORT - Import profile
 
 When user wants to import a profile:
 
@@ -255,7 +289,7 @@ node ~/.claude/skills/grimoire/scripts/import-profile.js --force ~/profile.json
 
 After import, remind user: **"Restart Claude Code to load the new skills."**
 
-### 10. SYNC - Sync profile with gist
+### 11. SYNC - Sync profile with gist
 
 When user wants to sync across machines:
 

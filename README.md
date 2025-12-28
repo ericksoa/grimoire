@@ -46,6 +46,20 @@ git clone https://github.com/ericksoa/grimoire ~/.claude/skills/grimoire
 | `/grimoire create` | Create a new skill |
 | `/grimoire export` | Export skills to a profile file |
 | `/grimoire import <file>` | Import skills from a profile |
+| `/grimoire update-index` | Refresh the local search index |
+
+## Fast Offline Search
+
+Grimoire caches registry data locally for instant search:
+
+```bash
+/grimoire search docker          # <50ms, works offline
+
+# Force refresh from registries
+/grimoire update-index
+```
+
+The index is stored at `~/.grimoire/index.json` and auto-refreshes every 24 hours.
 
 ## Profiles
 
