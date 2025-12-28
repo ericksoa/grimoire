@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grimoire Registry",
+  "description": "Schema for grimoire skill registry files",
+  "type": "object",
+  "required": ["name", "version", "skills"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Registry name"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Registry version (semver)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Registry description"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "description": "Registry homepage URL"
+    },
+    "skills": {
+      "type": "array",
+      "description": "List of skills in this registry",
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "source"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Skill name (lowercase, hyphens only)"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10,
+            "description": "Brief description of what the skill does"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source URL or github:owner/repo shorthand"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "description": "Keywords for search"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Skill version (semver)"
+          }
+        }
+      }
+    }
+  }
+}

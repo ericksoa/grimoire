@@ -1,0 +1,71 @@
+name: Validate PR
+
+on:
+  pull_request:
+    paths:
+      - 'registries/*.json'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ajv-cli for schema validation
+        run: npm install -g ajv-cli
+
+      - name: Validate JSON syntax
+        run: |
+          for file in registries/*.json; do
+            echo "Validating $file..."
+            node -e "JSON.parse(require('fs').readFileSync('$file'))"
+          done
+
+      - name: Validate against schema
+        run: |
+          for file in registries/*.json; do
+            echo "Validating $file against schema..."
+            ajv validate -s registries/schema.json -d "$file"
+          done
+
+      - name: Check required fields
+        run: |
+          node -e "
+            const fs = require('fs');
+            const files = fs.readdirSync('registries').filter(f => f.endsWith('.json') && f !== 'schema.json');
+
+            let hasErrors = false;
+
+            for (const file of files) {
+              const content = JSON.parse(fs.readFileSync('registries/' + file));
+              if (!content.skills) continue;
+
+              for (const skill of content.skills) {
+                const errors = [];
+
+                if (!skill.name) errors.push('missing name');
+                if (!skill.description) errors.push('missing description');
+                if (!skill.source) errors.push('missing source');
+                if (skill.name && !/^[a-z0-9-]+$/.test(skill.name)) {
+                  errors.push('name must be lowercase with hyphens only');
+                }
+
+                if (errors.length > 0) {
+                  console.error('Skill \"' + (skill.name || 'unknown') + '\": ' + errors.join(', '));
+                  hasErrors = true;
+                }
+              }
+            }
+
+            if (hasErrors) process.exit(1);
+            console.log('All skills valid!');
+          "
+
+      - name: Preview catalog generation
+        run: node scripts/generate-catalog.js

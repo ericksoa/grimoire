@@ -1,0 +1,75 @@
+# Grimoire
+
+**Skill manager for Claude Code**
+
+Discover, install, and manage skills that extend Claude Code's capabilities.
+
+---
+
+## Quick Start
+
+```bash
+# Install grimoire
+git clone https://github.com/ericksoa/grimoire ~/.claude/skills/grimoire
+
+# Restart Claude Code, then use it:
+/grimoire list              # See installed skills
+/grimoire search docker     # Find skills
+/grimoire install evolve    # Install from registry
+```
+
+## Skills Catalog
+
+<!-- CATALOG:START - Do not remove. Auto-generated from registries/*.json -->
+| Skill | Description | Tags | Install |
+|-------|-------------|------|---------|
+| [commit-wizard](https://github.com/example/commit-wizard-skill) | Smart git commits with conventional commit format, auto-generated messages, and scope detection | `git` `commits` `conventional-commits` | `/grimoire install commit-wizard` |
+| [debug-oracle](https://github.com/example/debug-oracle-skill) | Advanced debugging assistance with stack trace analysis and root cause detection | `debugging` `errors` `troubleshooting` | `/grimoire install debug-oracle` |
+| [doc-scribe](https://github.com/example/doc-scribe-skill) | Generate and maintain documentation, READMEs, and API docs from code | `documentation` `readme` `api-docs` | `/grimoire install doc-scribe` |
+| [evolve](https://github.com/ericksoa/agentic-evolve) | Genetic algorithm optimizer for performance-critical code using parallel Claude Code agents to discover faster implementations through evolution | `optimization` `genetic-algorithm` `performance` `rust` `benchmarks` | `/grimoire install evolve` |
+| [refactor-sage](https://github.com/example/refactor-sage-skill) | Intelligent code refactoring with pattern detection and best practice suggestions | `refactoring` `code-quality` `patterns` | `/grimoire install refactor-sage` |
+| [test-whisperer](https://github.com/example/test-whisperer-skill) | Generate comprehensive test suites with edge cases, mocks, and coverage analysis | `testing` `jest` `pytest` `coverage` | `/grimoire install test-whisperer` |
+<!-- CATALOG:END -->
+
+**6 skills available** | [Add yours](CONTRIBUTING.md)
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `/grimoire list` | Show installed skills |
+| `/grimoire search <term>` | Find skills by name, description, or tags |
+| `/grimoire install <name>` | Install a skill from the registry |
+| `/grimoire install github:owner/repo` | Install directly from GitHub |
+| `/grimoire update` | Update all git-managed skills |
+| `/grimoire remove <name>` | Uninstall a skill |
+| `/grimoire create` | Create a new skill |
+
+## How It Works
+
+Grimoire manages skills in two locations:
+
+- **Personal skills**: `~/.claude/skills/` - Available in all projects
+- **Project skills**: `.claude/skills/` - Project-specific, can be committed
+
+Skills are defined by a `SKILL.md` file with YAML frontmatter:
+
+```markdown
+---
+name: my-skill
+description: What it does
+allowed-tools: Bash, Read, Write
+---
+
+# Instructions for Claude
+
+Your skill's prompt goes here...
+```
+
+## Add Your Skill
+
+Want to share your skill? See [CONTRIBUTING.md](CONTRIBUTING.md) for instructions.
+
+## License
+
+MIT
